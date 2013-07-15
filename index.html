@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+        <script src="js/lib/raphael.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+            function init () {
+                var osc = new synth.audio.nodes.Oscillator(),
+                    gain = new synth.audio.nodes.Gain(),
+                    destination = new synth.audio.nodes.Destination();
+                osc.connect(gain);
+                gain.connect(destination);
+                gain.disconnect();
+                setTimeout(function () {
+                    osc.val('frequency', 300);
+                }, 2000);
+                setTimeout(function () {
+                    gain.val('gain', 0.1);
+                }, 4000);
+
+                synth.ui.paper = new Raphael('canvas', 680, 420);
+                synth.init();
+                var oscWidget = new synth.ui.widgets.Oscillator(),
+                    gainWidget = new synth.ui.widgets.Gain(),
+                    destWidget = new synth.ui.widgets.Destination();
+                oscWidget.render();
+                gainWidget.render();
+                destWidget.render();
+            };
+            window.addEventListener('load', init, false);
+        </script>
+    </head>
+    <body>
+        <input id="thebutton" type="button" value="go"></input>
+        <input id="stopbutton" type="button" value="stop"></input>
+        <div id="canvas"></div>
+    </body>
+</html>
